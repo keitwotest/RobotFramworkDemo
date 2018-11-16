@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generated="20180809 09:17:32.366" generator="Robot 3.0.4 (Python 2.7.11 on win32)">
+<suite source="D:\work\RIDE\cookies登录百度" id="s1" name="Cookies登录百度">
+<suite source="D:\work\RIDE\cookies登录百度\登录百度测试用例" id="s1-s1" name="登录百度测试用例">
+<suite source="D:\work\RIDE\cookies登录百度\登录百度测试用例\用cookies登录百度.txt" id="s1-s1-s1" name="用Cookies登录百度">
+<test id="s1-s1-s1-t1" name="测试用例">
+<kw name="杀浏览器驱动" library="公共关键字">
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>os.system('taskkill /f \ /im chromedriver.exe &gt;nul 2&gt;nul')</arg>
+<arg>os</arg>
+</arguments>
+<status status="PASS" endtime="20180809 09:17:32.698" starttime="20180809 09:17:32.532"></status>
+</kw>
+<status status="PASS" endtime="20180809 09:17:32.699" starttime="20180809 09:17:32.531"></status>
+</kw>
+<kw name="Open Browser" library="SeleniumLibrary">
+<doc>Opens a new browser instance to the given ``url``.</doc>
+<arguments>
+<arg>http://www.baidu.com</arg>
+<arg>chrome</arg>
+</arguments>
+<msg timestamp="20180809 09:17:32.700" level="INFO">Opening browser 'chrome' to base url 'http://www.baidu.com'.</msg>
+<status status="PASS" endtime="20180809 09:17:39.570" starttime="20180809 09:17:32.700"></status>
+</kw>
+<kw name="Maximize Browser Window" library="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" endtime="20180809 09:17:40.722" starttime="20180809 09:17:39.570"></status>
+</kw>
+<kw name="点击元素" library="公共关键字">
+<arguments>
+<arg>jquery=a.1b</arg>
+</arguments>
+<kw name="Wait Until Page Contains Element" library="SeleniumLibrary">
+<doc>Waits until element ``locator`` appears on current page.</doc>
+<arguments>
+<arg>${元素}</arg>
+<arg>10</arg>
+</arguments>
+<kw name="Capture Page Screenshot" library="SeleniumLibrary">
+<doc>Takes screenshot of the current page and embeds it into log file.</doc>
+<msg timestamp="20180809 09:17:51.181" html="yes" level="INFO">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-4.png"&gt;&lt;img src="selenium-screenshot-4.png" width="800px"&gt;&lt;/a&gt;</msg>
+<status status="PASS" endtime="20180809 09:17:51.181" starttime="20180809 09:17:50.843"></status>
+</kw>
+<msg timestamp="20180809 09:17:51.182" level="FAIL">Element 'jquery=a.1b' did not appear in 10 seconds.</msg>
+<status status="FAIL" endtime="20180809 09:17:51.183" starttime="20180809 09:17:40.724"></status>
+</kw>
+<status status="FAIL" endtime="20180809 09:17:51.183" starttime="20180809 09:17:40.723"></status>
+</kw>
+<status status="FAIL" endtime="20180809 09:17:51.183" critical="yes" starttime="20180809 09:17:32.530">Element 'jquery=a.1b' did not appear in 10 seconds.</status>
+</test>
+<status status="FAIL" endtime="20180809 09:17:51.184" starttime="20180809 09:17:32.410"></status>
+</suite>
+<status status="FAIL" endtime="20180809 09:17:51.188" starttime="20180809 09:17:32.407"></status>
+</suite>
+<status status="FAIL" endtime="20180809 09:17:51.190" starttime="20180809 09:17:32.384"></status>
+</suite>
+<statistics>
+<total>
+<stat fail="1" pass="0">Critical Tests</stat>
+<stat fail="1" pass="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat fail="1" id="s1" name="Cookies登录百度" pass="0">Cookies登录百度</stat>
+<stat fail="1" id="s1-s1" name="登录百度测试用例" pass="0">Cookies登录百度.登录百度测试用例</stat>
+<stat fail="1" id="s1-s1-s1" name="用Cookies登录百度" pass="0">Cookies登录百度.登录百度测试用例.用Cookies登录百度</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

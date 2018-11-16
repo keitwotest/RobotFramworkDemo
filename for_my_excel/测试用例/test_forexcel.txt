@@ -1,0 +1,24 @@
+*** Settings ***
+Library           Collections
+Library           ExcelLibrary
+
+*** Test Cases ***
+for_myExcel
+    open_Excel    D:\\work\\RIDE-Demo\\for_my_excel\\file.xls
+    @{read_columnA}    get_column_values    mytext    0    #0代表Excel的第一列，读完@{read_columnA}是一个list
+    @{read_columnB}    get_column_values    mytext    1
+    ${y}    set_Variable    1    #读取文件后，list示例[A2,u'hedi']
+    ${count_row}    get_row_count    mytext    #get_row_count/get_column_count    获取文本行/列数
+    Set_Suite_Variable    ${count_row}
+    #log    ${count_row}
+    @{a_list}    create_list
+    @{b_list}    create_list
+    : FOR    ${x}    IN RANGE    ${count_row}
+    \    ${a}    set_variable    ${read_columnA[${x}][${y}]}
+    \    ${b}    set_variable    ${read_columnB[${x}][${y}]}
+    \    Append_to_list    ${a_list}    ${a}    #Append_to_list需要Collections包支持
+    \    Append_to_list    ${b_list}    ${b}
+    Set_Suite_Variable    ${a_list}
+    Set_Suite_Variable    ${b_list}
+    #log    ${a_list}
+    #log    ${b_list}

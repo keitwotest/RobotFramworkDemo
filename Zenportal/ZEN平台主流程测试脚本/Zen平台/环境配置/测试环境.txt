@@ -1,0 +1,4 @@
+﻿*** Variables ***
+${apiurl}         http://xxxx.cn    #车辆网平台首页
+${loginuser}      xxxxx    # 用户名
+${loginpwd}       xxxxx    # 登录密码

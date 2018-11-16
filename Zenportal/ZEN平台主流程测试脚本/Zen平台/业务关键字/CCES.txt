@@ -1,0 +1,216 @@
+*** Settings ***
+Resource          ../公共关键字/公共关键字.txt
+
+*** Keywords ***
+登录
+    打开浏览器    ${apiurl}
+    文本框输入    username    ${loginuser}
+    Press Key    username    \\9    #点击TAB键跳转
+    文本框输入    px_password    ${loginpwd}
+    点击元素    jquery=input#code.form-control.input_yan    #点击验证码编辑框
+    sleep    8
+    Comment    Add Cookie    CASTGC    TGT-12-IUIreWkQ3TJ4ulfctfeWXFOdpegIemTcHNEdbR04biclU4W27Q-spt.usercenter.com
+    Comment    Add Cookie    JSESSIONID    5A6C2BD89BFCF4B26BC04C7FB016C27D
+    点击元素    jquery=button.btn.btn-sign    #点击登录按钮
+    ${ww}    Get Cookies    #获取登录后的cookie值
+    log    ${ww}
+    goto    http://zenportal.intranet.cn:8082/uc_web/index/homepage.ihtml
+    Sleep    5
+    点击元素    jquery=div>a:contains('项目配置管理平台')    #点击项目配置管理平台
+    sleep    3
+    点击元素    jquery=i+span:contains('项目配置管理')    #点击项目配置管理菜单
+    sleep    3
+
+客户管理操作
+    点击元素    jquery=i+span:contains('客户管理')    #点击客户管理
+    sleep    0.5
+    点击元素    jquery=button.btn.btn_add    #点击新增按钮
+    新增字典项|客户名称    博毅
+    点击元素    jquery=button.btn.btn_save    #点击确定按钮
+    sleep    0.5
+    点击添加成功弹框关闭按钮
+    sleep    1
+
+产品硬件型号管理操作
+    点击元素    jquery=i+span:contains('产品硬件型号管理')    #点击产品硬件型号管理
+    sleep    1
+    execute JavaScript    $("a.btn1.btn_edit").eq(1).click()    #点击产品新增字典项
+    新增字典项|客户名称    车机    #新增字典项名称
+    点击元素    jquery=button.btn.btn_save    #点击确定按钮
+    sleep    0.5
+    点击添加成功弹框关闭按钮    #点击关闭按钮
+    sleep    1
+    execute JavaScript    $("a.btn1.btn_edit").eq(3).click()    #点击产品类型新增字典项
+    新增字典项|客户名称    K66    #新增字典项名称
+    #点击下拉框选择    pid.last()    3    #选择产品（父级）名称
+    execute JavaScript    $("select#pid.form-control").get(0).selectedIndex=1    #选择下拉框最后一位
+    点击元素    jquery=button.btn.btn_save    #点击确定按钮
+    sleep    0.5
+    点击添加成功弹框关闭按钮    #点击关闭按钮
+    sleep    1
+    execute JavaScript    $("a.btn1.btn_edit").eq(5).click()    #点击硬件版型新增字典项    $("select#pid.form-control").get(0).selectedIndex=1
+    新增字典项|客户名称    V1.1    #新增字典项名称
+    #点击下拉框选择    pid.last()    5    #选择产品类型（父级）名称
+    execute JavaScript    $("select#pid.form-control").get(0).selectedIndex=1    #选择下拉框第一位    $("select#pid.form-control option:last").attr('selected','selected')    #选择下拉框最后一位
+    点击元素    jquery=button.btn.btn_save    #点击确定按钮
+    sleep    0.5
+    点击添加成功弹框关闭按钮    #点击关闭按钮
+    sleep    1
+
+板型配置项管理操作
+    点击元素    jquery=i+span:contains('板型配置项管理')    #点击板型配置管理
+    sleep    1
+    点击下拉框选择    productCode    1
+    点击下拉框选择    productType    1
+    sleep    1
+    点击元素    jquery=button:contains('新增')    #点击新增按钮
+    新增配置项
+    sleep    3
+    点击元素    jquery=button.btn.btn_save    #点击新增配置项确定按钮
+    sleep    5
+    点击添加成功弹框关闭按钮
+    sleep    2
+    列表显示列    #点击列表显示列
+    sleep    2
+    点击元素    jquery=button:contains('过滤')    #点击过滤按钮
+    点击元素    jquery=div#my_modal_content.modal-content    #进入过滤弹框界面
+    文本框输入    jquery=input#title.form-control    微信功能    #过滤界面--选项显示名
+    sleep    1
+    点击元素    jquery=button#searchConfiguration.btn.btn_save    #点击确定按钮
+    sleep    1
+    execute JavaScript    $('input:checkbox').attr("checked",'true')    #点击全选按钮checkbox
+    sleep    0.5
+    批量复制
+    批量删除
+    点击元素    jquery=button:contains('配置导入')    #点击配置导入按钮
+    sleep    0.5
+    点击元素    jquery=div#my_modal_content.modal-content    #定位到配置导入弹框
+    点击下拉框选择    select#newProductType.form-control.required    3    #选择香蕉导入
+    点击元素    jquery=button#otherSave.btn.btn_save    #点击确定按钮
+    sleep    5
+    点击元素    jquery= button.btn.btn_cancel    #点击关闭按钮
+    sleep    2
+    点击元素    jquery=button.btn.btn_export    #点击导出按钮
+
+BOM模板管理操作
+    点击元素    jquery=i+span:contains('BOM模板管理')    #点击BOM模板管理
+    sleep    0.5
+    点击下拉框选择    productCode    1
+    点击下拉框选择    productType    3
+    点击下拉框选择    hardwareVersion    1
+    sleep    1
+    点击元素    jquery=button#submitBtn.btn.btn_search    #点击搜索按钮
+    点击元素    jquery=button.btn.btn_add    #点击新增按钮
+    写入模板名称
+    sleep    1
+    点击元素    jquery=button.btn.btn_save    #点击确定按钮
+    sleep    2
+    Comment    ${bom}    get_text    jquery=label#scenseIdLabel.control-label    #判断是否存在
+    ${bom}    set_variable    名称已存在
+    log    ${bom}
+    Run Keyword If    '${bom}' == '名称已存在'    Run Keywords    点击元素    jquery=button.btn.btn_save
+    ...    AND    sleep    1
+    ...    AND    写入模板名称1
+    ...    AND    点击元素    jquery=button.btn.btn_save    #点击确定按钮
+    ...    ELSE IF    Run Keyword    点击元素    jquery=button.btn.btn_save    #点击确定按钮
+    sleep    1
+    点击BOM抽离界面修改
+    sleep    2
+    点击BOM抽离选项
+    sleep    1
+    点击元素    jquery=button:last()    #点击确定按钮
+    sleep    1
+    选中新建BOM模板界面的BOM
+    点击元素    jquery=button.btn.btn_save    #点击确定按钮
+    sleep    1
+    点击添加成功弹框关闭按钮
+    sleep    3
+
+项目模板配置操作
+    点击元素    jquery=i+span:contains('项目模板配置')    #点击项目模板配置
+    sleep    1
+    点击下拉框选择    productCode    2
+    点击下拉框选择    productType    2
+    点击下拉框选择    hardwareVersion    1
+    sleep    1
+    点击元素    jquery=button#search.btn.btn_search    #点击搜索按钮
+    sleep    1
+    点击下拉框选择    bomVersion    1    #点击选择硬件BOM型号下拉框
+    sleep    1
+    Comment    点击元素    jquery=button#addProjectTemplatePage.btn.btn_add    #点击新增按钮
+    Comment    写入项目名称    test
+    Comment    sleep    1
+    Comment    点击元素    jquery=button#subNews.btn.btn_save    #点击确定按钮
+    Comment    sleep    0.5
+    Comment    点击添加成功弹框关闭按钮
+    Comment    sleep    1
+    Comment    配置项目参数
+    Comment    点击元素    jquery=button#saveBtn.btn.btn-success    #点击保存按钮
+    Comment    点击元素    jquery=div.modal-content    #点击修改参数前后对比弹框
+    Comment    点击元素    jquery=button.btn.btn_save    #点击确定按钮
+    Comment    点击添加成功弹框关闭按钮
+    点击元素    jquery=button#publishBtn.btn.btn-success    #点击发布按钮进行编译
+    sleep    1
+    点击元素    jquery=div.modal-content    #点击选择编译版本参数弹框
+    点击下拉框选择    yunovoType1.form-control    1    #选择TYPE类型
+    点击下拉框选择    yunovoClean1.form-control    2    #选择是否清楚代码
+    点击下拉框选择    yunovoOta1.form-control    2    #选择是否编译OTA
+    sleep    1
+    文本框输入    jquery=input#yunovoVersion1.form-control.required    S1.00    #输入版本号
+    sleep    1
+    文本框输入    jquery=input#carbonCopy1.form-control    liuql@yunovo.cn    #抄送邮件地址
+    press key    jquery=input#carbonCopy1.form-control    \\13
+    sleep    1
+    文本框输入    jquery=textarea#versionDescription1.form-control    1.测试测试
+    Comment    sleep    1
+    Comment    点击元素    jquery=div.modal-footer
+    execute JavaScript    $('button.btn.btn_save').eq(4).click()    #点击确定按钮
+    sleep    5
+    点击添加成功弹框关闭按钮
+    Comment    #点击元素    jquery=button#otherSaveProjectTemplatePage.btn.btn-success    #点击另存为按钮
+    sleep    2
+
+操作记录查询
+    点击元素    jquery=i+span:contains('操作记录查询')    #点击操作记录查询
+    sleep    1
+    文本框输入    jquery=input#operationId.form-control    htpzzg    #点击操作人
+    sleep    1
+    点击下拉框选择    operationType.form-control    1    #点击操作类型
+    Comment    sleep    1
+    Comment    点击元素    jquery=input#startOperationTime.form-control.datetimepicker.hasDatepicker    #选择开始时间
+    Comment    sleep    0.5
+    Comment    点击元素    jquery=a.ui-state-default.ui-state-highlight    #选择当前日期
+    Comment    sleep    0.5
+    Comment    点击元素    jquery=button.ui-datepicker-close.ui-state-default.ui-priority-primary.ui-corner-all    #点击关闭按钮
+    Comment    sleep    0.5
+    Comment    点击元素    jquery=input#endOperationTime.form-control.datetimepicker.hasDatepicker    #选择结束时间
+    Comment    sleep    0.5
+    Comment    点击元素    jquery=button.ui-datepicker-current.ui-state-default.ui-priority-secondary.ui-corner-all    #选择现在的时间
+    Comment    sleep    0.5
+    Comment    点击元素    jquery=button.ui-datepicker-close.ui-state-default.ui-priority-primary.ui-corner-all    #点击关闭按钮
+    sleep    0.5
+    点击元素    jquery=button#submitBtn.btn.btn_search    #点击搜索按钮
+    sleep    1
+    press key     jquery=button#submitBtn.btn.btn_search    \\40    #从顶部往下滑动
+    sleep    2
+    execute JavaScript    $('ul>li.perPage').eq(7)    #点击选择第7页
+    sleep    2
+    点击元素    jquery=i.fa.fa-play.fa-rotate-180    #点击上一页
+    sleep    0.5
+    点击元素    jquery=ul>li.nextPage    #点击下一页
+    sleep    0.5
+    点击元素    jquery=ul>li.firstPage    #点击首页
+    sleep    1
+    点击元素    jquery=ul>li.lastPage    #点击尾页
+    sleep    1
+    文本框输入    jquery=div.paginationText>input    20    #点击输入页数框
+    sleep    0.5
+    点击元素    jquery=div.paginationText>button    #点击GO按钮
+    sleep    1
+    press key     jquery=div.paginationText>button    \\40    #从顶部往下滑动
+    sleep    1
+    Comment    循环N次
+    sleep    2
+
+退出
+    悬停按钮

@@ -1,0 +1,9 @@
+*** Variables ***
+${Appium地址}       http://127.0.0.1:4723/wd/hub
+${安卓_platformName}    Android
+${安卓_platformVersion}    7.0    # 7.0
+${安卓_deviceName}    d015fa0e    # d015fa0e
+${安卓_appPackage}    com.tencent.mm
+${安卓_appActivity}    .ui.LauncherUI
+${屏幕分辨率长度}        1920
+${屏幕分辨率宽度}        1080

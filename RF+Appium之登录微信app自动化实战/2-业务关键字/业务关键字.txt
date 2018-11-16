@@ -1,0 +1,32 @@
+*** Settings ***
+Resource          ../3-公共关键字/公共关键字.txt
+
+*** Keywords ***
+打开微信
+    打开微信APP
+    sleep    8
+    滑动屏幕    540    480    540    1440    #屏幕下滑
+    点击元素    xpath=//android.widget.TextView[@text=\"京东购物\"]    #点击京东小程序
+    sleep    5
+    @{contexts}    Get Contexts
+    Log Many    @{contexts}    #输出webview的名称
+    ${cur_context}    Get Current Context
+    log    ${cur_context}
+
+微信-发现-看一看
+    打开微信APP
+    sleep    5
+    点击元素    xpath=//android.widget.TextView[@text=\"发现\"]    #点击发现
+    sleep    1
+    点击元素    xpath=//android.widget.TextView[@text=\"看一看\"]    #点击看一看
+    sleep    5
+    ${cur_context}    Get Current Context
+    log    当前context
+    log    ${cur_context}
+    sleep    3
+    点击元素    xpath=//android.view.View[@text=\"习主席与30位领导人的握手\"]
+    log    开始切换
+    Switch To Context    WEBVIEW_com.tencent.mm:tools
+    ${cur_context}    Get Current Context
+    log    当前context
+    log    ${cur_context}

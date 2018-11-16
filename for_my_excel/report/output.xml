@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generated="20181106 11:05:50.976" generator="Robot 3.0.4 (Python 2.7.11 on win32)">
+<suite source="D:\work\RIDE-Demo\RF调用脚本和指令" id="s1" name="RF调用脚本和指令">
+<suite source="D:\work\RIDE-Demo\RF调用脚本和指令\测试用例" id="s1-s1" name="测试用例">
+<suite source="D:\work\RIDE-Demo\RF调用脚本和指令\测试用例\RF调用python脚本.txt" id="s1-s1-s1" name="RF调用python脚本">
+<test id="s1-s1-s1-t1" name="RF调用DOS指令">
+<kw name="Run" library="OperatingSystem">
+<doc>Runs the given command in the system and returns the output.</doc>
+<arguments>
+<arg>D:/work/RIDE-Demo/RF调用脚本和指令/DOS.bat</arg>
+</arguments>
+<assign>
+<var>${a}</var>
+</assign>
+<msg timestamp="20181106 11:05:51.231" level="INFO">Running command 'D:/work/RIDE-Demo/RF\xb5\xf7\xd3\xc3\xbd\xc5\xb1\xbe\xba\xcd\xd6\xb8\xc1\xee/DOS.bat 2&gt;&amp;1'.</msg>
+<msg timestamp="20181106 11:05:51.295" level="INFO">${a} = 'D:/work/RIDE-Demo/RF调用脚本和指令/DOS.bat' 不是内部或外部命令，也不是可运行的程序
+或批处理文件。</msg>
+<status status="PASS" endtime="20181106 11:05:51.295" starttime="20181106 11:05:51.208"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${a}</arg>
+</arguments>
+<msg timestamp="20181106 11:05:51.296" level="INFO">'D:/work/RIDE-Demo/RF调用脚本和指令/DOS.bat' 不是内部或外部命令，也不是可运行的程序
+或批处理文件。</msg>
+<status status="PASS" endtime="20181106 11:05:51.296" starttime="20181106 11:05:51.296"></status>
+</kw>
+<status status="PASS" endtime="20181106 11:05:51.297" critical="yes" starttime="20181106 11:05:51.207"></status>
+</test>
+<status status="PASS" endtime="20181106 11:05:51.297" starttime="20181106 11:05:51.060"></status>
+</suite>
+<status status="PASS" endtime="20181106 11:05:51.300" starttime="20181106 11:05:51.057"></status>
+</suite>
+<status status="PASS" endtime="20181106 11:05:51.301" starttime="20181106 11:05:51.006"></status>
+</suite>
+<statistics>
+<total>
+<stat fail="0" pass="1">Critical Tests</stat>
+<stat fail="0" pass="1">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat fail="0" id="s1" name="RF调用脚本和指令" pass="1">RF调用脚本和指令</stat>
+<stat fail="0" id="s1-s1" name="测试用例" pass="1">RF调用脚本和指令.测试用例</stat>
+<stat fail="0" id="s1-s1-s1" name="RF调用python脚本" pass="1">RF调用脚本和指令.测试用例.RF调用python脚本</stat>
+</suite>
+</statistics>
+<errors>
+<msg timestamp="20181106 11:05:51.194" level="ERROR">Error in file 'D:\work\RIDE-Demo\RF调用脚本和指令\测试用例\RF调用python脚本.txt': Importing test library 'MyTest' failed: ImportError: No module named HTMLTestRunner
+Traceback (most recent call last):
+  File "D:\python\python27\lib\site-packages\MyTest\__init__.py", line 2, in &lt;module&gt;
+    from unittest import TestDiv
+  File "D:\python\python27\lib\site-packages\MyTest\unittest.py", line 4, in &lt;module&gt;
+    import HTMLTestRunner
+PYTHONPATH:
+  C:\Windows\system32\python27.zip
+  D:\python\python27\DLLs
+  D:\python\python27\lib
+  D:\python\python27\lib\plat-win
+  D:\python\python27\lib\lib-tk
+  D:\python\python27
+  D:\python\python27\lib\site-packages
+  D:\python\python27\lib\site-packages\win32
+  D:\python\python27\lib\site-packages\win32\lib
+  D:\python\python27\lib\site-packages\Pythonwin
+  D:\python\python27\lib\site-packages\wx-2.8-msw-unicode</msg>
+</errors>
+</robot>

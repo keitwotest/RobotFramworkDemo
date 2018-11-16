@@ -1,0 +1,212 @@
+*** Settings ***
+Library           String
+Resource          ../环境配置/测试环境.txt
+Resource          ../业务关键字/CCES.txt
+Library           Selenium2Library
+
+*** Keywords ***
+杀浏览器驱动
+    Evaluate    os.system('taskkill /f \ /im chromedriver.exe >nul 2>nul')    os
+
+打开浏览器
+    [Arguments]    ${apiurl}
+    Open Browser    ${apiurl}    Chrome
+    Maximize Browser Window
+    Comment    窗口最大化
+
+关闭浏览器
+    Close Browser
+
+文本框输入
+    [Arguments]    ${text}    ${val}
+    Wait Until Page Contains Element    ${text}
+    Wait Until Element Is Visible    ${text}
+    Input Text    ${text}    ${val}
+
+点击元素
+    [Arguments]    ${元素}
+    Wait Until Page Contains Element    ${元素}    10
+    Wait Until Element Is Visible    ${元素}    5
+    sleep    0.5
+    click element    ${元素}
+    等待加载
+
+等待加载
+    Comment    Wait Until Page Does Not Contain Element    jquery=div#ctl00_updateProgress
+
+点击下拉框选择
+    [Arguments]    ${text}    ${index}
+    Wait Until Page Contains Element    jquery=select#${text}
+    Wait Until Element Is Visible    jquery=select#${text}
+    Select From List By Index    jquery=select#${text}    ${index}
+
+新增配置项
+    点击元素    jquery=div#my_modal_content.modal-content    #点击新增配置项界面
+    Wait Until Page Contains Element    jquery=input#itemCode.form-control.required    #写入选项名
+    Wait Until Element Is Visible    jquery=input#itemCode.form-control.required
+    Input Text    jquery=input#itemCode.form-control.required    webchat
+    Wait Until Page Contains Element    jquery=input#title.form-control.required    #写入选项显示名
+    Wait Until Element Is Visible    jquery=input#title.form-control.required
+    Input Text    jquery=input#title.form-control.required    微信功能
+    Comment    ${text}    get_text    jquery=label#itemCodeLabel.control-label
+    Comment    log    ${text}
+    Comment    Wait Until Page Contains Element    jquery=input#dependencies.form-control    #写入依赖项
+    Comment    Wait Until Element Is Visible    jquery=input#dependencies.form-control
+    Comment    Input Text    jquery=input#dependencies.form-control    webchat
+    Wait Until Page Contains Element    jquery=input#description.form-control    #写入描述
+    Wait Until Element Is Visible    jquery=input#description.form-control
+    Input Text    jquery=input#description.form-control    是否支持微信功能
+    Comment    Wait Until Page Contains Element    jquery=input.from-contarol    #写入排序
+    Comment    Wait Until Element Is Visible    jquery=inpuy.form-control
+    Comment    Input Text    jquery=inpuy.form-control    18
+    点击下拉框选择    itemType    2    #点击类型
+    sleep    1
+    Wait Until Page Contains Element    jquery=input#itemValue.form-control    #写入选项值
+    Wait Until Element Is Visible    jquery=input#itemValue.form-control
+    Input Text    jquery=input#itemValue.form-control    yes,no
+    sleep    2
+    Wait Until Page Contains Element    jquery=input#itemName.form-control    #写入选项显示值
+    Wait Until Element Is Visible    jquery=input#itemName.form-control
+    Input Text    jquery=input#itemName.form-control    支持,不支持
+    sleep    1
+    点击元素    jquery=button#addDivyes.btn    #点击yes按钮
+    sleep    0.5
+    Input Text    jquery=input#srcyes2actionValue.form-control    undefined
+    sleep    0.5
+    Input Text    jquery=input#yes3actionValue.form-control    SUPPORT_Wecaht_FUNCTION=yes    #配置yes
+    sleep    1
+    点击元素    jquery=button#addDivno.btn    #点击no按钮
+    sleep    0.5
+    Input Text    jquery=input#srcno2actionValue.form-control    undefined
+    sleep    0.5
+    Input Text    jquery=input#no3actionValue.form-control    SUPPORT_Wecaht_FUNCTION=no    #配置no
+    sleep    0.5
+    点击元素    jquery=button#addAction.btn.btn_add    #点击添加执行项按钮
+
+点击添加成功弹框关闭按钮
+    点击元素    jquery=div.modal-content    #点击添加成功弹框
+    点击元素    jquery=button.btn.btn_cancel    #点击关闭按钮
+
+写入模板名称
+    点击元素    jquery=div#my_modal_content.modal-content
+    Wait Until Page Contains Element    jquery=input#bomName.form-control.required
+    Wait Until Element Is Visible    jquery=input#bomName.form-control.required
+    Input Text    jquery=input#bomName.form-control.required    大师    #BOM模板命名规则：A\B\C\D...
+    点击元素    jquery=div#my_modal_content.modal-content
+
+点击BOM抽离界面修改
+    点击元素    jquery=div#my_modal_content.modal-content
+    点击元素    jquery=a#1.btn1
+
+点击BOM抽离选项
+    点击元素    jquery=span:contains('选项')    #选中BOM抽离选择界面
+    execute JavaScript    $("input:checkbox[value='yes']").attr('checked','true')    #jquery=td>input:eq(0).click()
+    execute JavaScript    $("input:checkbox[value='no']").attr('checked','true')
+
+选中新建BOM模板界面的BOM
+    点击元素    jquery=div#my_modal_content.modal-content
+    execute JavaScript    $('input:checkbox').eq(1).attr("checked",'true')    #选择第一个
+
+写入项目名称
+    [Arguments]    ${val}
+    点击元素    jquery=div#my_modal_content.modal-content
+    Comment    点击下拉框选择    customer    1    #选择客户名称
+    Comment    Execute JavaScript    var a=$("#customer").text()    #获取下拉框所有val值
+    @{drop_down_value}=    get list items    id=customer    #FOR循环遍历下拉框所有val的值
+    : FOR    ${_value}    IN    @{drop_down_value}
+    \    log    Current Value of DropDown list is:${_value}
+    点击下拉框选择    customer    3    #选择客户名称
+    sleep    1
+    Wait Until Page Contains Element    jquery=input.form-control.required    #输入项目名称
+    Wait Until Element Is Visible    jquery=input.form-control.required
+    Input Text    jquery=input.form-control.required    BY02
+
+配置项目参数
+    点击下拉框选择    productCode    2
+    点击下拉框选择    productType    1
+    点击下拉框选择    hardwareVersion    1
+    点击下拉框选择    bomVersion    2    #选择硬件BOM型号
+    sleep    1
+    execute JavaScript    $("input[id='webchat1']").attr('checked','true')    #对radio进行选择yes
+
+新建客户项目
+    点击元素    jquery=form#templateAddForm.form-horizontal    #点击新建客户界面
+    Input Text    jquery=input.form-control.required    MK21
+
+悬停按钮
+    focus    dom=$("i.fa.fa-leaf.white").mouseenter()    #鼠标定位到悬停按钮
+    点击元素    jquery=i+span:contains('门户')    #点击门户
+    #点击元素    jquery=i+span:contains('退出')    #点击退出
+    sleep    5
+    点击元素    jquery=a:contains('退出')    #点击门户-->退出
+    sleep    5
+    点击元素    jquery=div.modal-content    #点击退出系统弹框
+    点击元素    jquery=button.btn.btn_save    #点击确定按钮
+
+新增字典项|客户名称
+    [Arguments]    ${val}
+    点击元素    jquery=div#my_modal_content.modal-content
+    Wait Until Page Contains Element    jquery=input#dictValue.form-control.required
+    Wait Until Element Is Visible    jquery=input#dictValue.form-control.required
+    Input Text    jquery=input#dictValue.form-control.required    ${val}    #新增字典项名称
+
+列表显示列
+    点击元素    jquery=div#cols_chzn.chzn-container.chzn-container-multi    #定位到列表显示列
+    点击元素    jquery=li#cols_chzn_o_0.active-result
+    点击元素    jquery=div#cols_chzn.chzn-container.chzn-container-multi    #定位到列表显示列
+    点击元素    jquery=li#cols_chzn_o_1.active-result
+    点击元素    jquery=div#cols_chzn.chzn-container.chzn-container-multi    #定位到列表显示列
+    点击元素    jquery=li#cols_chzn_o_2.active-result
+    点击元素    jquery=div#cols_chzn.chzn-container.chzn-container-multi    #定位到列表显示列
+    点击元素    jquery=li#cols_chzn_o_3.active-result
+    点击元素    jquery=div#cols_chzn.chzn-container.chzn-container-multi    #定位到列表显示列
+    点击元素    jquery=li#cols_chzn_o_4.active-result
+    点击元素    jquery=div#cols_chzn.chzn-container.chzn-container-multi    #定位到列表显示列
+    点击元素    jquery=li#cols_chzn_o_5.active-result
+    点击元素    jquery=div#cols_chzn.chzn-container.chzn-container-multi    #定位到列表显示列
+    点击元素    jquery=li#cols_chzn_o_6.active-result
+    点击元素    jquery=div#cols_chzn.chzn-container.chzn-container-multi    #定位到列表显示列
+    点击元素    jquery=li#cols_chzn_o_7.active-result
+    点击元素    jquery=div#cols_chzn.chzn-container.chzn-container-multi    #定位到列表显示列
+    点击元素    jquery=li#cols_chzn_o_8.active-result
+    点击元素    jquery=div#cols_chzn.chzn-container.chzn-container-multi    #定位到列表显示列
+    点击元素    jquery=li#cols_chzn_o_9.active-result
+
+批量复制
+    点击元素    jquery=button:contains('批量复制')    #点击批量复制按钮
+    点击元素    jquery=div#my_modal_content.modal-content    #进入批量复制界面
+    sleep    1
+    点击下拉框选择    newProductType.form-control.required    3    #定位到批量复制--产品类型下拉框
+    sleep    1
+    点击元素    jquery=button#otherSave.btn.btn_save    #点击确定按钮
+    execute JavaScript    $("div.modal-content").eq(1)    #定位批量复制温馨提示界面
+    execute JavaScript    $("button.btn.btn_cancel").eq(1)    #点击关闭按钮
+    点击下拉框选择    newProductType.form-control.required    4    #定位到批量复制--产品类型下拉框
+    点击元素    jquery=button#otherSave.btn.btn_save    #点击确定按钮
+    sleep    3
+    点击元素    jquery=button.btn.btn_cancel    #点击关闭按钮
+    sleep    2
+
+批量删除
+    点击下拉框选择    productType    2
+    execute JavaScript    $('input:checkbox').attr("checked",'true')    #点击全选按钮checkbox
+    点击元素    jquery=button#batchDel.btn.btn_delete_batch    #点击批量删除按钮
+    sleep    0.5
+    点击元素    jquery=button.btn.btn_save    #点击批量删除确定按钮
+    sleep    5
+    点击元素    jquery=button.btn.btn_cancel    #点击关闭按钮
+    sleep    0.5
+
+写入模板名称1
+    点击元素    jquery=div#my_modal_content.modal-content
+    Wait Until Page Contains Element    jquery=input#bomName.form-control.required
+    Wait Until Element Is Visible    jquery=input#bomName.form-control.required
+    Input Text    jquery=input#bomName.form-control.required    大师1    #BOM模板命名规则：A\B\C\D...
+
+循环N次
+    :FOR    ${i}    IN RANGE    10
+    \    log    ${i}
+    \    sleep    1
+    \    press key     jquery=div.paginationText>button    \\40    #从顶部往下滑动
+    \    sleep    1
+    log    Outside Loop

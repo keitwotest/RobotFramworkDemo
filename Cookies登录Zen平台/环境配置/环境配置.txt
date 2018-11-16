@@ -1,0 +1,4 @@
+﻿*** Variables ***
+${apiurl}         http://xxxxx.cn/    # 打开ZEN平台登录界面
+${loginuser}      xxxxx    # 输入账号名称
+${loginpwd}       xxxxx    # 输入账户密码

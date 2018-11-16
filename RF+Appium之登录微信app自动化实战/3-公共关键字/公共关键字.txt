@@ -1,0 +1,77 @@
+*** Settings ***
+Library           AppiumLibrary
+Resource          ../4-环境配置/APP参数.txt
+
+*** Keywords ***
+打开微信APP
+    ${androidProcess}    Create Dictionary    androidProcess    com.tencent.mm:tools
+    Open Application    ${Appium地址}    platformName=${安卓_platformName}    platformVersion=${安卓_platformVersion}    deviceName=${安卓_deviceName}    appPackage=${安卓_appPackage}    appActivity=${安卓_appActivity}
+    ...    unicodeKeyboard=True    resetKeyboard=True    noReset=True    #如果需要输入中文，需要最后面两个参数
+    sleep    2
+
+点击元素
+    [Arguments]    ${元素}
+    Wait Until Page Contains Element    ${元素}    15    没找到元素
+    sleep    0.5
+    click element    ${元素}
+
+输入文本框
+    [Arguments]    ${元素}    ${内容}
+    Wait Until Page Contains Element    ${元素}    15    没找到元素
+    sleep    0.5
+    input text    ${元素}    ${内容}
+
+点击坐标
+    [Arguments]    ${x}    ${y}    ${d}
+    sleep    1
+    Click A Point    x=${x}    y=${y}    duration=${d}
+    sleep    1
+
+模拟键盘
+    [Arguments]    ${x}
+    sleep    1
+    Press Keycode    ${x}
+
+滑动屏幕
+    [Arguments]    ${x的初始值}    ${y的初始值}    ${x的结束值}    ${y的结束值}    # ${w_start_perc} | ${h_start_perc} | ${w_end_perc} | ${h_end_perc}
+    [Timeout]    1 minute
+    Swipe    ${x的初始值}    ${y的初始值}    ${x的结束值}    ${y的结束值}    duration=1000
+    sleep    2
+    Comment    Log Many    ${w_start_perc}    ${h_start_perc}    ${w_end_perc}    ${h_end_perc}
+    Comment    ${height}    Get Window Height
+    Comment    ${width}    Get Window Width
+    Comment    ${h_start}    Evaluate    ${height}*${h_start_perc}
+    Comment    ${h_end}    Evaluate    ${height}*${h_end_perc}
+    Comment    ${w_start}    Evaluate    ${width}*${w_start_perc}
+    Comment    ${w_end}    Evaluate    ${width}*${w_end_perc}
+    Comment    Swipe By Percent    ${w_start}    ${h_start}    ${w_end}    ${h_end}
+    Comment    Capture Page Screenshot
+
+页面包含元素
+    [Arguments]    ${元素}
+    Wait Until Page Contains Element    ${元素}    10    没找到元素
+    sleep    0.5
+    Page Should Contain Element    ${元素}
+
+获取元素属性
+    [Arguments]    ${元素}    ${属性}
+    Wait Until Page Contains Element    ${元素}    15    没找到元素
+    sleep    0.5
+    ${属性值}    Get Element Attribute    ${元素}    ${属性}
+    [Return]    ${属性值}
+
+执行N此成功退出
+    [Arguments]    ${循环次数}    ${测试用例脚本}    ${参数}
+    : FOR    ${var}    IN RANGE    ${循环次数}
+    \    ${s}    Run Keyword And Return Status    ${测试用例脚本}    ${参数}    #运行关键字，如果关键字成功，返回True,如果关键字运行失败，返回False
+    \    Run Keyword if    ${s}==True    Exit For Loop    #如果等于True,退出循环
+    \    Run Keyword if    ${s}==False    Continue For Loop    #如果等于False,继续循环
+    Run Keyword if    ${s}==False    FAIL    #循环结束后，状态还是False,将当前关键字定义为失败
+
+执行N次
+    [Arguments]    ${循环次数}    ${测试用例脚本}
+    : FOR    ${var}    IN RANGE    ${循环次数}
+    \    ${s}    Run Keyword And Return Status    ${测试用例脚本}
+    \    Run Keyword if    ${s}==True    Exit For Loop
+    \    Run Keyword if    ${s}==False    Continue For Loop
+    Run Keyword if    ${s}==False    FAIL

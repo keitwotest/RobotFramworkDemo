@@ -1,0 +1,13 @@
+*** Settings ***
+Library           SeleniumLibrary
+Library           MyLibrary
+Library           MyTest
+Library           OperatingSystem
+
+*** Test Cases ***
+RF调用python脚本
+    Open Chrome Browser    http://www.baidu.com
+
+RF调用DOS指令
+    ${a}    OperatingSystem.Run    D:/work/RIDE-Demo/RF调用脚本和指令/DOS.bat
+    LOG    ${a}

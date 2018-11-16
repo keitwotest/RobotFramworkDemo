@@ -1,0 +1,12 @@
+*** Settings ***
+Library           RequestsLibrary
+Library           HttpLibrary.HTTP
+
+*** Test Cases ***
+postrequest
+
+getrequest
+    Create Session    agileone    http://www.baidu.com
+    ${response}    Get Request    agileone    /index.php
+    Should Contain    decode(${response.content})    Welcome to Login
+    log    ${response.content}

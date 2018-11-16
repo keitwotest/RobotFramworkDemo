@@ -1,0 +1,29 @@
+*** Settings ***
+Library           AutoItLibrary
+Library           SeleniumLibrary
+Resource          ../环境配置/环境配置.txt
+
+*** Keywords ***
+杀浏览器驱动
+    Evaluate    os.system('taskkill /f \ /im chromedriver.exe >nul 2>nul')    os    #杀浏览器驱动
+
+打开浏览器
+    Open Browser    ${apiurl}    Chrome
+    Maximize Browser Window
+    Comment    窗口最大化
+
+点击元素
+    [Arguments]    ${元素}
+    Wait Until Page Contains Element    ${元素}    10
+    Wait Until Element Is Visible    ${元素}    5
+    sleep    0.5
+    click element    ${元素}
+
+文本框输入
+    [Arguments]    ${text}    ${val}
+    Wait Until Page Contains Element    ${text}
+    Wait Until Element Is Visible    ${text}
+    Input Text    ${text}    ${val}
+
+关闭浏览器
+    Close Browser

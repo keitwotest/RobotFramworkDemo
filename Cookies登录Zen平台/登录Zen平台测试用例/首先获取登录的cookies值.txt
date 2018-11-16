@@ -1,0 +1,16 @@
+*** Settings ***
+Resource          ../公共关键字/公共关键字.txt
+
+*** Test Cases ***
+获取cookies值测试用例
+    杀浏览器驱动
+    打开浏览器
+    sleep    1
+    文本框输入    username    ${loginuser}
+    Press Key    username    \\9    #点击TAB键
+    文本框输入    px_password    ${loginpwd}
+    点击元素    jquery=input#code.form-control.input_yan    #点击验证码编辑框
+    sleep    8
+    点击元素    jquery=button.btn.btn-sign    #点击登录按钮
+    ${ww}=    get cookies
+    log    ${ww}
